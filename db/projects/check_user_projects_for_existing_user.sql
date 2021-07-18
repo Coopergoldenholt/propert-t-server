@@ -1,0 +1,1 @@
+select * from user_projects where user_id = $1 and project_id = $2;

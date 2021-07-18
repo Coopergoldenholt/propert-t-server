@@ -1,0 +1,1 @@
+delete from property_auth where id = $1

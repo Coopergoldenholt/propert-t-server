@@ -1,0 +1,1 @@
+select name, id, type_of_user from users;

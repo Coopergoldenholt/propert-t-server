@@ -1,0 +1,1 @@
+select email, name, company_id, id from users where company_id = $1 and type_of_user = 'employee';

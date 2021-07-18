@@ -1,0 +1,1 @@
+select * from managed_companies where managing_company_id = $1;
