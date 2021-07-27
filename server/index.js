@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env;
+const path = require("path");
+const { Storage } = require("@google-cloud/storage");
 const massive = require("massive");
 const userCtrl = require("./controllers/sessionController");
 const companyCtrl = require("./controllers/companyController");
@@ -11,6 +13,20 @@ const projectCtrl = require("./controllers/projectController");
 const authCtrl = require("./controllers/authorizationController");
 
 const app = express();
+
+const gc = new Storage({
+	projectId: "landscaping-1596651165198",
+	keyFilename: path.join(
+		__dirname,
+		"../landscaping-1596651165198-d20b30bb1c9f.json"
+	),
+});
+
+gc.getBuckets().then((res) => console.log(res));
+
+const bucket = gc.bucket("proper-t-images");
+
+// gc.getBuckets().then((res) => console.log(res));
 
 app.use(express.json({ limit: "100mb", extended: true }));
 app.use(express.static("images"));

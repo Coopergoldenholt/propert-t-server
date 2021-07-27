@@ -18,28 +18,32 @@ let transporter = nodemailer.createTransport({
 
 module.exports = {
 	loginUser: async (req, res) => {
-		const db = req.app.get("db");
-		let { email, password } = req.body;
-		email = email.toLowerCase();
-		const [user] = await db.login.get_user_by_email(email);
-		if (!user) {
-			return res.status(401).send("Username or password incorrect");
-		}
-		const result = await bcrypt.compare(password, user.password);
+		try {
+			const db = req.app.get("db");
+			let { email, password } = req.body;
+			email = email.toLowerCase();
+			const [user] = await db.login.get_user_by_email(email);
+			if (!user) {
+				return res.status(401).send("Username or password incorrect");
+			}
+			const result = await bcrypt.compare(password, user.password);
 
-		if (result) {
-			req.session.user = {
-				email: user.email,
-				firstName: user.first_name,
-				lastName: user.last_name,
-				loggedIn: true,
-				companyId: user.company_id,
-				userType: user.type_of_user,
-				id: user.id,
-				managedCompanyId: user.managed_company,
-			};
-			res.status(200).send(req.session.user);
-		} else res.status(401).send("Username or password incorrect");
+			if (result) {
+				req.session.user = {
+					email: user.email,
+					firstName: user.first_name,
+					lastName: user.last_name,
+					loggedIn: true,
+					companyId: user.company_id,
+					userType: user.type_of_user,
+					id: user.id,
+					managedCompanyId: user.managed_company,
+				};
+				res.status(200).send(req.session.user);
+			} else res.status(401).send("Username or password incorrect");
+		} catch {
+			res.status(400).send("error");
+		}
 	},
 	registerUser: async (req, res) => {
 		const db = req.app.get("db");

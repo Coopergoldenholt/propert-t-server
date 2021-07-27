@@ -16,15 +16,15 @@ module.exports = {
 		const date = `${new Date().getFullYear()}-${
 			new Date().getMonth() + 1
 		}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`;
-		let [post] = await db.posts.insert_post([
-			companyId,
-			propertyId,
-			date,
-			7,
-			summary,
-			title,
-			managedCompanyId,
-		]);
+		// let [post] = await db.posts.insert_post([
+		// 	companyId,
+		// 	propertyId,
+		// 	date,
+		// 	7,
+		// 	summary,
+		// 	title,
+		// 	managedCompanyId,
+		// ]);
 
 		for (let image of beforeImages) {
 			const db = req.app.get("db");
@@ -34,18 +34,18 @@ module.exports = {
 				managedCompanyId,
 				propertyId
 			);
-			await db.images.insert_post_image([imageURL, "before", post.id]);
+			// await db.images.insert_post_image([imageURL, "before", post.id]);
 		}
-		for (let image of afterImages) {
-			const db = req.app.get("db");
-			let imageURL = await imageFunctions.saveImage(
-				image,
-				companyId,
-				managedCompanyId,
-				propertyId
-			);
-			await db.images.insert_post_image([imageURL, "after", post.id]);
-		}
+		// for (let image of afterImages) {
+		// 	const db = req.app.get("db");
+		// 	let imageURL = await imageFunctions.saveImage(
+		// 		image,
+		// 		companyId,
+		// 		managedCompanyId,
+		// 		propertyId
+		// 	);
+		// 	await db.images.insert_post_image([imageURL, "after", post.id]);
+		// }
 
 		res.status(200).send("request created");
 	},
